@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "repository": { "type": "git", "url": "git+https://github.com/primaryobjects/chatgpt-append.git" },
   "publisher": "primaryobjects",
+  "sponsor": { "url": "https://github.com/sponsors/primaryobjects" },
   "engines": {
     "vscode": "^1.77.0"
   },
