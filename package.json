@@ -4,6 +4,7 @@
   "description": "Saves all source code files in your project to a list of text files for copying/pasting into ChatGPT. Each file is limited to a configurable max size of characters to allow pasting into the conversation.",
   "version": "1.0.0",
   "repository": { "type": "git", "url": "git+https://github.com/primaryobjects/chatgpt-append.git" },
+  "publisher": "primaryobjects",
   "engines": {
     "vscode": "^1.77.0"
   },
