@@ -6,6 +6,8 @@ The perfect minimialistic tool to allow ChatGPT to analyze your project's source
 
 *Created with ChatGPT4!*
 
+![Screenshot of VSCode extension ChatGPT Append](images/screenshot.gif)
+
 ## Quick Start
 
 1. Open your VSCode project.
