@@ -2,6 +2,8 @@
 
 Saves all source code files in your project to a list of text files for copying/pasting into ChatGPT.
 
+[Install](https://marketplace.visualstudio.com/items?itemName=primaryobjects.chatgpt-append) in VsCode.
+
 The perfect minimialistic tool to allow ChatGPT to analyze your project's source code.
 
 *Created with ChatGPT4!*
