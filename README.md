@@ -41,3 +41,11 @@ This extension contributes the following settings:
 ### 1.0.0
 
 Initial release.
+
+## License
+
+MIT
+
+## Author
+
+Kory Becker http://www.primaryobjects.com/kory-becker
