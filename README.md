@@ -33,10 +33,6 @@ This extension uses the following settings:
 * `chatgptAppend.folderName`: Destination folder to save files. Default is `chatgpt_append_files`.
 * `chatgptAppend.ignoreFiles`: List of filenames or wildcards to ignore.
 
-### 1.0.0
-
-Initial release.
-
 ## License
 
 MIT
