@@ -2,7 +2,7 @@
 
 Change log and version histort.
 
-## 1.1.0
+## 1.2.0
 
 - Added ignoreFiles.
 - Added extension settings.

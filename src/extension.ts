@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as minimatch from 'minimatch';
 
 export function activate(context: vscode.ExtensionContext) {
-    let disposable = vscode.commands.registerCommand('chatgptAppend.build', async () => {
+    let disposable = vscode.commands.registerCommand('chatgpt-append.build', async () => {
         const folder = await getWorkspaceFolder();
         if (!folder) {
             return;
