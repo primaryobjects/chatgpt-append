@@ -25,20 +25,13 @@ You can now ask questions and have the AI develop your code for you!
 - Configurable maximum number of characters per file.
 - Configurable destination folder.
 
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
+This extension uses the following settings:
 
 * `chatgptAppend.maxFileSize`: Max number of characters per file. Default is `2000`.
 * `chatgptAppend.folderName`: Destination folder to save files. Default is `chatgpt_append_files`.
+* `chatgptAppend.ignoreFiles`: List of filenames or wildcards to ignore.
 
 ### 1.0.0
 

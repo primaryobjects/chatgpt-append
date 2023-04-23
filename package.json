@@ -2,12 +2,17 @@
   "name": "chatgpt-append",
   "displayName": "ChatGPT Append",
   "description": "Saves all source code files in your project to a list of text files for copying/pasting into ChatGPT. Each file is limited to a configurable max size of characters to allow pasting into the conversation.",
-  "version": "1.0.0",
-  "repository": { "type": "git", "url": "git+https://github.com/primaryobjects/chatgpt-append.git" },
+  "version": "1.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/primaryobjects/chatgpt-append.git"
+  },
   "publisher": "primaryobjects",
-  "sponsor": { "url": "https://github.com/sponsors/primaryobjects" },
+  "sponsor": {
+    "url": "https://github.com/sponsors/primaryobjects"
+  },
   "engines": {
-    "vscode": "^1.77.0"
+    "vscode": "^1.77.3"
   },
   "categories": [
     "Other"
@@ -17,10 +22,33 @@
   "contributes": {
     "commands": [
       {
-        "command": "chatgpt-append.build",
+        "command": "chatgptAppend.build",
         "title": "ChatGPT Append"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "ChatGPT Append",
+      "properties": {
+        "chatgptAppend.maxFileSize": {
+          "type": "number",
+          "default": 2000,
+          "description": "Maximum file size"
+        },
+        "chatgptAppend.folderName": {
+          "type": "string",
+          "default": "my_extension_files",
+          "description": "Folder name"
+        },
+        "chatgptAppend.ignoreFiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "List of files to ignore by exact filename or wildcard"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -31,16 +59,16 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.77.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.77.3",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "@vscode/test-electron": "^2.3.0",
     "eslint": "^8.36.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^4.9.5",
-    "@vscode/test-electron": "^2.3.0"
+    "typescript": "^4.9.5"
   }
 }
