@@ -19,9 +19,9 @@ The perfect minimialistic tool to allow ChatGPT to analyze your project's source
 
 You can now ask questions and have the AI develop your code for you!
 
-## Running on a Single File
+## Process a Single File
 
-Right-click the file in the left-side nav and select the menu option `ChatGPT Append`.
+Right-click the file in the left-side navigation and select the menu option `ChatGPT Append`.
 
 ## Features
 
