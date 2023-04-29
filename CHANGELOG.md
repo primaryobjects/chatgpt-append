@@ -2,6 +2,11 @@
 
 Change log and version histort.
 
+## 1.6.0
+
+- Added support for TypeScript.
+- Prevent duplicate output files.
+
 ## 1.5.0
 
 - Added context-menu for right-clicking a single file to process.

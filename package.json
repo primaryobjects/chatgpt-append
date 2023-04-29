@@ -2,7 +2,7 @@
   "name": "chatgpt-append",
   "displayName": "ChatGPT Append",
   "description": "Saves all source code files in your project to a list of text files for copying/pasting into ChatGPT. Each file is limited to a configurable max size of characters to allow pasting into the conversation.",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/primaryobjects/chatgpt-append.git"
@@ -56,7 +56,7 @@
       "explorer/context": [
           {
               "command": "chatgpt-append.buildSingleFile",
-              "when": "resourceLangId == plaintext || resourceLangId == python || resourceLangId == javascript || resourceLangId == css || resourceLangId == csharp || resourceLangId == java || resourceLangId == cpp || resourceLangId == c || resourceLangId == go || resourceLangId == ruby || resourceLangId == php || resourceLangId == swift || resourceLangId == kotlin || resourceLangId == rust || resourceLangId == shellscript || resourceLangId == perl || resourceLangId == objective-c || resourceLangId == fortran || resourceLangId == r || resourceLangId == julia || resourceLangId == lua || resourceLangId == tcl || resourceLangId == haskell || resourceLangId == ocaml || resourceLangId == scheme || resourceLangId == clojure || resourceLangId == erlang || resourceLangId == lisp || resourceLangId == scala || resourceLangId == html || resourceLangId == json"
+              "when": "resourceLangId == plaintext || resourceLangId == python || resourceLangId == javascript || resourceLangId == css || resourceLangId == csharp || resourceLangId == java || resourceLangId == cpp || resourceLangId == c || resourceLangId == go || resourceLangId == ruby || resourceLangId == php || resourceLangId == swift || resourceLangId == kotlin || resourceLangId == rust || resourceLangId == shellscript || resourceLangId == perl || resourceLangId == objective-c || resourceLangId == fortran || resourceLangId == r || resourceLangId == julia || resourceLangId == lua || resourceLangId == tcl || resourceLangId == haskell || resourceLangId == ocaml || resourceLangId == scheme || resourceLangId == clojure || resourceLangId == erlang || resourceLangId == lisp || resourceLangId == scala || resourceLangId == html || resourceLangId == json || resourceLangId == typescript"
           }
       ]
     }

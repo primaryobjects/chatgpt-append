@@ -11,13 +11,13 @@ export async function buildAllFiles() {
         return;
     }
 
+    const { maxFileSize, folderName, ignoreFiles } = getConfig();
     const fileTypes = ['txt', 'py', 'js', 'css', 'cs', 'java', 'cpp', 'c', 'go', 'rb', 'php', 'swift', 'kt',
         'rs', 'sh', 'pl', 'm', 'f90', 'r', 'jl', 'lua', 'tcl', 'hs', 'ml', 'scm', 'clj', 'erl', 'lisp', 'scala',
-        'html', 'htm'];
-    const exclude = '**/node_modules/**';
+        'html', 'htm', 'ts'];
+    const exclude = `{**/node_modules/**,**/${folderName}/**}`;
     const files = await vscode.workspace.findFiles(`**/*.{${fileTypes.join(',')}}`, exclude);
 
-    const { maxFileSize, folderName, ignoreFiles } = getConfig();
     const newFolderPath = createOutputFolder(folder, folderName);
 
     for (const file of files) {
