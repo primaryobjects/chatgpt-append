@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { minimatch } from 'minimatch';
+import { getWorkspaceFolder, getConfig, createOutputFolder } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerCommand('chatgpt-append.build', async () => {
@@ -81,32 +82,6 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(disposable);
-}
-
-async function getWorkspaceFolder(): Promise<vscode.WorkspaceFolder | undefined> {
-    if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length === 1) {
-        return vscode.workspace.workspaceFolders[0];
-    }
-
-    return await vscode.window.showWorkspaceFolderPick();
-}
-
-function getConfig() {
-    const config = vscode.workspace.getConfiguration('chatgptAppend');
-    const maxFileSize = config.get<number>('maxFileSize') || 2000;
-    const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
-    const ignoreFiles = config.get<string[]>('ignoreFiles') || [];
-
-    return { maxFileSize, folderName, ignoreFiles };
-}
-
-function createOutputFolder(folder: vscode.WorkspaceFolder, folderName: string) {
-    const newFolderPath = path.join(folder.uri.fsPath, folderName);
-    if (!fs.existsSync(newFolderPath)) {
-        fs.mkdirSync(newFolderPath);
-    }
-
-    return newFolderPath;
 }
 
 export function deactivate() {}
