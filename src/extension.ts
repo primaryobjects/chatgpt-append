@@ -27,8 +27,14 @@ export function activate(context: vscode.ExtensionContext) {
         const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
         const ignoreFiles = config.get<string[]>('ignoreFiles') || [];
 
+        const newFolderPath = path.join(folder.uri.fsPath, folderName);
+        if (!fs.existsSync(newFolderPath)) {
+            fs.mkdirSync(newFolderPath);
+        }
+
         for (const file of files) {
             const fileName = path.basename(file.fsPath);
+            const fileExt = path.extname(file.fsPath);
 
             if (ignoreFiles.some((pattern: string) => minimatch(fileName, pattern))) {
                 // Skip this file.
@@ -37,18 +43,14 @@ export function activate(context: vscode.ExtensionContext) {
 
             const fileContent = fs.readFileSync(file.fsPath).toString();
             content += `--- FILENAME: ${fileName}\n${fileContent}\n`;
-        }
 
-        let fileIndex = 1;
-        const newFolderPath = path.join(folder.uri.fsPath, folderName);
-        if (!fs.existsSync(newFolderPath)) {
-            fs.mkdirSync(newFolderPath);
-        }
-        while (content.length > 0) {
-            const newFilePath = path.join(newFolderPath, `part_${fileIndex}.txt`);
-            fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
-            content = content.slice(maxFileSize);
-            fileIndex++;
+            let fileIndex = 1;
+            while (content.length > 0) {
+                const newFilePath = path.join(newFolderPath, `${fileName}_${fileExt}_${fileIndex}.txt`);
+                fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
+                content = content.slice(maxFileSize);
+                fileIndex++;
+            }
         }
 
         vscode.window.showInformationMessage(`ChatGPT files created successfully in folder ${newFolderPath}`);
@@ -75,11 +77,12 @@ export function activate(context: vscode.ExtensionContext) {
         const maxFileSize = config.get<number>('maxFileSize') || 2000;
         const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
 
-        let fileIndex = 1;
         const newFolderPath = path.join(folder.uri.fsPath, folderName);
         if (!fs.existsSync(newFolderPath)) {
             fs.mkdirSync(newFolderPath);
         }
+
+        let fileIndex = 1;
         while (content.length > 0) {
             const newFilePath = path.join(newFolderPath, `${fileName.replace('.', '_')}_${fileIndex}.txt`);
             fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
