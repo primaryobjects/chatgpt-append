@@ -55,6 +55,42 @@ export function activate(context: vscode.ExtensionContext) {
     });
 
     context.subscriptions.push(disposable);
+
+    disposable = vscode.commands.registerCommand('chatgpt-append.buildSingleFile', async (fileUri: vscode.Uri) => {
+        if (!fileUri) {
+            return;
+        }
+
+        const folder = await getWorkspaceFolder();
+        if (!folder) {
+            return;
+        }
+
+        const document = await vscode.workspace.openTextDocument(fileUri);
+        const fileName = path.basename(document.fileName);
+        const fileContent = document.getText();
+        let content = `--- FILENAME: ${fileName}\n${fileContent}\n`;
+
+        const config = vscode.workspace.getConfiguration('chatgptAppend');
+        const maxFileSize = config.get<number>('maxFileSize') || 2000;
+        const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
+
+        let fileIndex = 1;
+        const newFolderPath = path.join(folder.uri.fsPath, folderName);
+        if (!fs.existsSync(newFolderPath)) {
+            fs.mkdirSync(newFolderPath);
+        }
+        while (content.length > 0) {
+            const newFilePath = path.join(newFolderPath, `${fileName.replace('.', '_')}_${fileIndex}.txt`);
+            fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
+            content = content.slice(maxFileSize);
+            fileIndex++;
+        }
+
+        vscode.window.showInformationMessage(`ChatGPT files created successfully in folder ${newFolderPath}`);
+    });
+
+    context.subscriptions.push(disposable);
 }
 
 async function getWorkspaceFolder(): Promise<vscode.WorkspaceFolder | undefined> {
