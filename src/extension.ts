@@ -22,15 +22,8 @@ export function activate(context: vscode.ExtensionContext) {
 		"chatgptAppend.maxFileSize": 2000,
 		"chatgptAppend.folderName": "chatgpt_append_files"
 		*/
-        const config = vscode.workspace.getConfiguration('chatgptAppend');
-        const maxFileSize = config.get<number>('maxFileSize') || 2000;
-        const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
-        const ignoreFiles = config.get<string[]>('ignoreFiles') || [];
-
-        const newFolderPath = path.join(folder.uri.fsPath, folderName);
-        if (!fs.existsSync(newFolderPath)) {
-            fs.mkdirSync(newFolderPath);
-        }
+        const { maxFileSize, folderName, ignoreFiles } = getConfig();
+        const newFolderPath = createOutputFolder(folder, folderName);
 
         for (const file of files) {
             const fileName = path.basename(file.fsPath);
@@ -73,14 +66,8 @@ export function activate(context: vscode.ExtensionContext) {
         const fileContent = document.getText();
         let content = `--- FILENAME: ${fileName}\n${fileContent}\n`;
 
-        const config = vscode.workspace.getConfiguration('chatgptAppend');
-        const maxFileSize = config.get<number>('maxFileSize') || 2000;
-        const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
-
-        const newFolderPath = path.join(folder.uri.fsPath, folderName);
-        if (!fs.existsSync(newFolderPath)) {
-            fs.mkdirSync(newFolderPath);
-        }
+        const { maxFileSize, folderName, ignoreFiles } = getConfig();
+        const newFolderPath = createOutputFolder(folder, folderName);
 
         let fileIndex = 1;
         while (content.length > 0) {
@@ -102,6 +89,24 @@ async function getWorkspaceFolder(): Promise<vscode.WorkspaceFolder | undefined>
     }
 
     return await vscode.window.showWorkspaceFolderPick();
+}
+
+function getConfig() {
+    const config = vscode.workspace.getConfiguration('chatgptAppend');
+    const maxFileSize = config.get<number>('maxFileSize') || 2000;
+    const folderName = config.get<string>('folderName') || `chatgpt_append_files`;
+    const ignoreFiles = config.get<string[]>('ignoreFiles') || [];
+
+    return { maxFileSize, folderName, ignoreFiles };
+}
+
+function createOutputFolder(folder: vscode.WorkspaceFolder, folderName: string) {
+    const newFolderPath = path.join(folder.uri.fsPath, folderName);
+    if (!fs.existsSync(newFolderPath)) {
+        fs.mkdirSync(newFolderPath);
+    }
+
+    return newFolderPath;
 }
 
 export function deactivate() {}
