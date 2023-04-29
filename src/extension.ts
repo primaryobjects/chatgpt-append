@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { minimatch } from 'minimatch';
-import { getWorkspaceFolder, getConfig, createOutputFolder } from './utils';
+import { getWorkspaceFolder, getConfig, createOutputFolder, writeOutputFiles } from './utils';
 
 export function activate(context: vscode.ExtensionContext) {
     let disposable = vscode.commands.registerCommand('chatgpt-append.build', async () => {
@@ -16,19 +16,14 @@ export function activate(context: vscode.ExtensionContext) {
 			'html', 'htm'];
         const exclude = '**/node_modules/**';
         const files = await vscode.workspace.findFiles(`**/*.{${fileTypes.join(',')}}`, exclude);
-        let content = '';
 
-		/*
-		settings.json
-		"chatgptAppend.maxFileSize": 2000,
-		"chatgptAppend.folderName": "chatgpt_append_files"
-		*/
         const { maxFileSize, folderName, ignoreFiles } = getConfig();
         const newFolderPath = createOutputFolder(folder, folderName);
 
         for (const file of files) {
             const fileName = path.basename(file.fsPath);
-            const fileExt = path.extname(file.fsPath);
+            const baseName = path.parse(fileName).name;
+            const fileExt = path.extname(file.fsPath).replace('.', '');
 
             if (ignoreFiles.some((pattern: string) => minimatch(fileName, pattern))) {
                 // Skip this file.
@@ -36,15 +31,9 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             const fileContent = fs.readFileSync(file.fsPath).toString();
-            content += `--- FILENAME: ${fileName}\n${fileContent}\n`;
+            const content = `--- FILENAME: ${fileName}\n${fileContent}\n`;
 
-            let fileIndex = 1;
-            while (content.length > 0) {
-                const newFilePath = path.join(newFolderPath, `${fileName}_${fileExt}_${fileIndex}.txt`);
-                fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
-                content = content.slice(maxFileSize);
-                fileIndex++;
-            }
+            writeOutputFiles(content, newFolderPath, maxFileSize, `${baseName}_${fileExt}`);
         }
 
         vscode.window.showInformationMessage(`ChatGPT files created successfully in folder ${newFolderPath}`);
@@ -64,19 +53,15 @@ export function activate(context: vscode.ExtensionContext) {
 
         const document = await vscode.workspace.openTextDocument(fileUri);
         const fileName = path.basename(document.fileName);
+        const baseName = path.parse(fileName).name;
+        const fileExt = path.extname(fileName).replace('.', '');
         const fileContent = document.getText();
         let content = `--- FILENAME: ${fileName}\n${fileContent}\n`;
 
         const { maxFileSize, folderName, ignoreFiles } = getConfig();
         const newFolderPath = createOutputFolder(folder, folderName);
 
-        let fileIndex = 1;
-        while (content.length > 0) {
-            const newFilePath = path.join(newFolderPath, `${fileName.replace('.', '_')}_${fileIndex}.txt`);
-            fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
-            content = content.slice(maxFileSize);
-            fileIndex++;
-        }
+        writeOutputFiles(content, newFolderPath, maxFileSize, `${baseName}_${fileExt}`);
 
         vscode.window.showInformationMessage(`ChatGPT files created successfully in folder ${newFolderPath}`);
     });

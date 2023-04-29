@@ -27,3 +27,13 @@ export function createOutputFolder(folder: vscode.WorkspaceFolder, folderName: s
 
     return newFolderPath;
 }
+
+export function writeOutputFiles(content: string, newFolderPath: string, maxFileSize: number, fileName: string) {
+    let fileIndex = 1;
+    while (content.length > 0) {
+        const newFilePath = path.join(newFolderPath, `${fileName}_${fileIndex}.txt`);
+        fs.writeFileSync(newFilePath, content.slice(0, maxFileSize));
+        content = content.slice(maxFileSize);
+        fileIndex++;
+    }
+}
